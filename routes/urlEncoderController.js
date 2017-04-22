@@ -16,16 +16,25 @@ mongoose.connection.on('error', function (err) {
 });
 
 exports.shorten = function (req, res) {
+
     var longUrl = req.body.url;
     var jsonResponse = {};
+
+    if (!longUrl) {
+        jsonResponse = {
+            statusCode: 500,
+            error: "Could not parse request body"
+        };
+        res.send(jsonResponse);
+    }
 
     encode(longUrl.length).then(function (encodedUrl) {
 
         schema.findOne({"actualUrl": longUrl})
             .then(function (result) {
                 if (result) {
-                    jsonResponse.statusCode = 200;
-                    jsonResponse.shortenedUrl= result.shortenedUrl;
+                    jsonResponse.statusCode = 300;
+                    jsonResponse.shortenedUrl = result.shortenedUrl;
                     jsonResponse.actualUrl = result.actualUrl;
                     res.send(jsonResponse);
                 } else {
@@ -56,16 +65,17 @@ exports.shorten = function (req, res) {
     });
 };
 
-exports.getAll = function (req,res) {
-     var jsonResponse = {};
-    schema.find({},function (err, urls) {
-        if(err){
-            console.log("Error Occured while fetching all urls from server: "+err);
+exports.getAll = function (req, res) {
+    var jsonResponse = {};
+    schema.find({}, function (err, urls) {
+        if (err) {
+            console.log("Error Occured while fetching all urls from server: " + err);
             jsonResponse.statusCode = 500;
             jsonResponse.error = err;
-        } else if(urls.length > 0){
+        } else if (urls.length > 0) {
+            console.log(JSON.stringify(urls));
             jsonResponse.statusCode = 200;
-            jsonResponse.urls = urls;
+            jsonResponse.urls = urls.reverse();
         }
         res.send(jsonResponse);
     });

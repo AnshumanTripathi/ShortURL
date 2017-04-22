@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app = "controller">
+<html ng-app="controller">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>URL Shortner</title>
@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="/stylesheets/starter-template.css">
     <script src="/javascripts/controller.js"></script>
 </head>
-<body ng-controller = "UrlController">
+<body ng-controller="UrlController">
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -40,17 +40,17 @@
             <form class="form-inline">
                 <div class="form-group">
                     <input style="width: 500px" type="text" class="form-control" id="url" name="url"
-                           placeholder="Enter URL to Shorten" ng-model = "test">
-                    <button type="submit" class="btn btn-primary" ng-click="encodeURL()"> Shorten</button>
+                           placeholder="Enter URL to Shorten" ng-model="test">
+                    <input type="submit" class="btn btn-primary" ng-click="encodeURL()" value="Shorten">
                 </div>
             </form>
         </div>
     </div>
 </div><!-- /.container -->
 
-<div class="container" ng-init = "getAllUrls()">
+<div class="container" ng-init="getAllUrls()">
     <div class="col-md-10">
-        <table class="table" ng-repeat="data in urls">
+        <table class="table">
             <thead>
             <th>
                 Shortened Link
@@ -59,7 +59,7 @@
                 Actual Link
             </th>
             </thead>
-            <tr>
+            <tr ng-repeat="data in urls">
                 <td>{{data.shortenedUrl}}</td>
                 <td>{{data.actualUrl}}</td>
             </tr>
